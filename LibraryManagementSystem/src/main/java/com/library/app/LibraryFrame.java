@@ -10,11 +10,15 @@ import com.library.model.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-// Main dashboard for the library system, handling Admin and User UI views.
-
+/**
+ * LibraryFrame.java
+ * -----------------
+ * Main dashboard for the library system, handling Admin and User UI views.
+ */
 public class LibraryFrame extends JFrame {
     private static final long serialVersionUID = 1L;
-    private final LibraryService libraryService;
+    
+	private final LibraryService libraryService;
     private final UserAccount currentUser;
     private final JPanel leftPanel, rightPanel;
     
@@ -23,6 +27,11 @@ public class LibraryFrame extends JFrame {
     private JTextField keywordField;
     private JScrollPane tableScrollPane; 
 
+    /**
+     * Constructs the main dashboard frame.
+     * @param service The LibraryService backend instance.
+     * @param user The currently logged-in user.
+     */
     public LibraryFrame(LibraryService service, UserAccount user){
         super("Library Dashboard - " + user.getRole() + ": " + user.getEmail());
         this.libraryService = service;
@@ -33,26 +42,26 @@ public class LibraryFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
-        /* Background setup
+        // Background setup
         JLabel bgLabel = new JLabel(new ImageIcon("src/main/java/com/library/app/library.jpg"));
         bgLabel.setBounds(0,0,1000,600); 
         add(bgLabel);
-*/
+
         // Left Navigation Panel
         leftPanel = new JPanel(); 
         leftPanel.setLayout(new BoxLayout(leftPanel,BoxLayout.Y_AXIS));
         leftPanel.setOpaque(false); 
         leftPanel.setBounds(30,50,200,480); 
-       // bgLabel.add(leftPanel);
+        bgLabel.add(leftPanel);
 
         // Right Content Panel
         rightPanel = new JPanel(); 
         rightPanel.setLayout(null);
         rightPanel.setOpaque(false); 
         rightPanel.setBounds(250,50,700,480); 
-       // bgLabel.add(rightPanel);
+        bgLabel.add(rightPanel);
 
-        // Buttons Configuration 
+        // --- Buttons Configuration ---
         if("Admin".equalsIgnoreCase(currentUser.getRole())){
             // Admin buttons: Ordered as requested. Removed user-specific functions.
             addNavButton("Add Book", () -> addItemPanel("Book"));
@@ -77,6 +86,11 @@ public class LibraryFrame extends JFrame {
         addNavButton("Logout", this::logout);
     }
 
+    /**
+     * Creates and adds a styled navigation button to the left panel.
+     * @param text The button text.
+     * @param action The action to run on click.
+     */
     private void addNavButton(String text, Runnable action){
         JButton btn = new JButton(text);
         btn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -88,22 +102,18 @@ public class LibraryFrame extends JFrame {
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.addMouseListener(new MouseAdapter(){
             @Override
-            public void mouseEntered(MouseEvent e){ 
-            	btn.setBackground(new Color(100,149,237)); 
-            }
-                   
+            public void mouseEntered(MouseEvent e){ btn.setBackground(new Color(100,149,237)); }
             @Override
-            public void mouseExited(MouseEvent e){ 
-            	btn.setBackground(new Color(65,105,225)); 
-            }
+            public void mouseExited(MouseEvent e){ btn.setBackground(new Color(65,105,225)); }
         });
         btn.addActionListener(e -> action.run());
         leftPanel.add(Box.createVerticalStrut(10));
         leftPanel.add(btn);
     }
 
-    // RIGHT PANEL IMPLEMENTATIONS
-    // Add Book/CD (For the admin)
+    // ====================== RIGHT PANEL IMPLEMENTATIONS ======================
+
+    // Add Book/CD (Admin)
     private void addItemPanel(String type){
         rightPanel.removeAll();
         rightPanel.setLayout(null); 

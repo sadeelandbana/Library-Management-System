@@ -3,17 +3,13 @@ package com.library.app;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
-//import java.awt.event.*;
+import java.awt.event.*;
 import com.library.service.LibraryService;
 import com.library.model.UserAccount;
 
 public class RegistrationScreen extends JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private LibraryService libraryService;
+    private LibraryService libraryService;
     private JTextField idField,nameField,emailField,phoneField,adminCodeField;
     private JPasswordField passwordField;
     private JComboBox<String> roleComboBox;
