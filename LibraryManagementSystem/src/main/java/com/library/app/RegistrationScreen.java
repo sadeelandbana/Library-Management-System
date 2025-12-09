@@ -4,13 +4,13 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 import com.library.service.LibraryService;
 import com.library.model.UserAccount;
 
 public class RegistrationScreen extends JFrame {
-
-    private LibraryService libraryService;
+	private static final long serialVersionUID = 1L;
+	
+	private LibraryService libraryService;
     private JTextField idField,nameField,emailField,phoneField,adminCodeField;
     private JPasswordField passwordField;
     private JComboBox<String> roleComboBox;
@@ -19,7 +19,7 @@ public class RegistrationScreen extends JFrame {
     private final Color backgroundColor = new Color(247, 241, 236); // #F7F1EC - Vanilla Mist
     private final Color panelColor = new Color(216, 195, 176);     // #D8C3B0 - Pale Biscuit
     private final Color textColor = new Color(56, 43, 38);        // #382B26 - Dark Roast (for H1 Titles & Primary Buttons)
-    private final Color secondaryTextColor = new Color(156, 126, 101); // #9C7E65 - Soft Leather (Secondary Titles/Borders)
+    //private final Color secondaryTextColor = new Color(156, 126, 101); // #9C7E65 - Soft Leather (Secondary Titles/Borders)
     private final Color buttonPrimaryBgColor = new Color(56, 43, 38); // #382B26 - Dark Roast (Primary Buttons)
     private final Color buttonPrimaryHoverColor = new Color(80, 60, 50); // Lighter Dark Roast
     private final Color buttonSecondaryBgColor = new Color(111, 86, 65); // #6F5641 - Mudstone (Secondary Buttons)
@@ -28,9 +28,9 @@ public class RegistrationScreen extends JFrame {
 
     // Unified Font Scheme
     private final Font titleFont = new Font("Arial", Font.BOLD, 24);
-    private final Font subtitleFont = new Font("Arial", Font.ITALIC, 20);
-    private final Font headingFont = new Font("Arial", Font.BOLD, 20);
-    private final Font paragraphFont = new Font("Arial", Font.PLAIN, 16);
+   // private final Font subtitleFont = new Font("Arial", Font.ITALIC, 20);
+   // private final Font headingFont = new Font("Arial", Font.BOLD, 20);
+   // private final Font paragraphFont = new Font("Arial", Font.PLAIN, 16);
     private final Font labelFont = new Font("Arial", Font.BOLD, 14);
     private final Font fieldFont = new Font("Arial", Font.PLAIN, 14);
     private final Font buttonFont = new Font("Arial", Font.BOLD, 14);
@@ -46,30 +46,48 @@ public class RegistrationScreen extends JFrame {
 
         JPanel formPanel = new JPanel(new GridLayout(0,2,15,15));
         formPanel.setBackground(panelColor); formPanel.setBorder(new CompoundBorder(new RoundedBorder(borderColor, 1, 15),new EmptyBorder(25,25,25,25)));
-        formPanel.add(new JLabel("Account Type:"){{setForeground(textColor); setFont(labelFont);}});
-     // Create ComboBox with larger size
+        formPanel.add(new JLabel("Account Type:"){
+			private static final long serialVersionUID = 1L;
+
+		{setForeground(textColor); setFont(labelFont);}});
         roleComboBox = new JComboBox<>(new String[]{"User", "Admin"});
         roleComboBox.setFont(fieldFont);
-        roleComboBox.setPreferredSize(new Dimension(240, 35));  // ← العرض الجديد
+        roleComboBox.setPreferredSize(new Dimension(240, 35)); 
 
-        // Wrap ComboBox inside a panel to respect preferred size
         JPanel comboWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         comboWrapper.setOpaque(false);
         comboWrapper.add(roleComboBox);
 
-        // Add wrapper instead of comboBox directly:
         formPanel.add(comboWrapper);
-        formPanel.add(new JLabel("User ID:"){{setForeground(textColor); setFont(labelFont);}});
+        formPanel.add(new JLabel("User ID:"){
+			private static final long serialVersionUID = 1L;
+		{setForeground(textColor); setFont(labelFont);}});
+        
         idField = new JTextField(); idField.setFont(fieldFont); idField.setBorder(new RoundedBorder(borderColor, 1, 10)); formPanel.add(idField);
-        formPanel.add(new JLabel("Full Name:"){{setForeground(textColor); setFont(labelFont);}});
+        formPanel.add(new JLabel("Full Name:"){
+			private static final long serialVersionUID = 1L;
+		{setForeground(textColor); setFont(labelFont);}});
+        
         nameField = new JTextField(); nameField.setFont(fieldFont); nameField.setBorder(new RoundedBorder(borderColor, 1, 10)); formPanel.add(nameField);
-        formPanel.add(new JLabel("Email:"){{setForeground(textColor); setFont(labelFont);}});
+        formPanel.add(new JLabel("Email:"){
+			private static final long serialVersionUID = 1L;
+		{setForeground(textColor); setFont(labelFont);}});
+        
         emailField = new JTextField(); emailField.setFont(fieldFont); emailField.setBorder(new RoundedBorder(borderColor, 1, 10)); formPanel.add(emailField);
-        formPanel.add(new JLabel("Phone:"){{setForeground(textColor); setFont(labelFont);}});
+        formPanel.add(new JLabel("Phone:"){
+			private static final long serialVersionUID = 1L;
+		{setForeground(textColor); setFont(labelFont);}});
+        
         phoneField = new JTextField(); phoneField.setFont(fieldFont); phoneField.setBorder(new RoundedBorder(borderColor, 1, 10)); formPanel.add(phoneField);
-        formPanel.add(new JLabel("Password:"){{setForeground(textColor); setFont(labelFont);}});
+        formPanel.add(new JLabel("Password:"){
+			private static final long serialVersionUID = 1L;
+		{setForeground(textColor); setFont(labelFont);}});
+        
         passwordField = new JPasswordField(); passwordField.setFont(fieldFont); passwordField.setBorder(new RoundedBorder(borderColor, 1, 10)); formPanel.add(passwordField);
-        formPanel.add(new JLabel("Admin Code:"){{setForeground(textColor); setFont(labelFont);}});
+        formPanel.add(new JLabel("Admin Code:"){
+			private static final long serialVersionUID = 1L;
+		{setForeground(textColor); setFont(labelFont);}});
+        
         adminCodeField = new JTextField(); adminCodeField.setFont(fieldFont); adminCodeField.setBorder(new RoundedBorder(borderColor, 1, 10)); formPanel.add(adminCodeField);
         adminCodeField.setVisible(false); formPanel.getComponent(12).setVisible(false);
 
@@ -79,7 +97,6 @@ public class RegistrationScreen extends JFrame {
         });
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
-
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
         buttonPanel.setBackground(backgroundColor);
         JButton backBtn = createStyledButton("← Back", buttonSecondaryBgColor, buttonSecondaryHoverColor, textColor, buttonFont);
@@ -129,9 +146,9 @@ public class RegistrationScreen extends JFrame {
         dispose(); new LoginScreen(libraryService).setVisible(true);
     }
 
-    // Custom Rounded Border Class
     class RoundedBorder extends AbstractBorder {
-        private Color color;
+		private static final long serialVersionUID = 1L;
+		private Color color;
         private int thickness;
         private int radius;
         private Insets insets;

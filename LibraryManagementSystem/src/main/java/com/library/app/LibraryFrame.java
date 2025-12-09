@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 import com.library.service.*;
 import com.library.model.*;
@@ -20,19 +19,18 @@ public class LibraryFrame extends JFrame {
     private final JPanel leftPanel, rightPanel;
 
     // Unified Color Palette
-    private final Color backgroundColor = new Color(245, 243, 240); // #F5F3F0 - Vanilla Mist
     private final Color panelColor = new Color(218, 210, 205);     // #DAD2CD - Mushroom Beige
     private final Color textColor = new Color(56, 43, 38);        // #382B26 - Dark Roast (for H1 Titles & Primary Buttons)
-    private final Color secondaryTextColor = new Color(156, 126, 101); // #9C7E65 - Soft Leather (Secondary Titles/Borders)
+    //private final Color secondaryTextColor = new Color(156, 126, 101); // #9C7E65 - Soft Leather (Secondary Titles/Borders)
     private final Color buttonPrimaryBgColor = new Color(56, 43, 38); // #382B26 - Dark Roast (Primary Buttons)
     private final Color buttonPrimaryHoverColor = new Color(80, 60, 50); // Lighter Dark Roast
-    private final Color buttonSecondaryBgColor = new Color(111, 86, 65); // #6F5641 - Mudstone (Secondary Buttons)
-    private final Color buttonSecondaryHoverColor = new Color(140, 110, 90); // Lighter Mudstone
+    //private final Color buttonSecondaryBgColor = new Color(111, 86, 65); // #6F5641 - Mudstone (Secondary Buttons)
+    //private final Color buttonSecondaryHoverColor = new Color(140, 110, 90); // Lighter Mudstone
     private final Color borderColor = new Color(156, 126, 101);    // #9C7E65 - Soft Leather (for rounded borders where needed)
 
     // Unified Font Scheme
-    private final Font titleFont = new Font("Arial", Font.BOLD, 24);
-    private final Font subtitleFont = new Font("Arial", Font.ITALIC, 20);
+    //private final Font titleFont = new Font("Arial", Font.BOLD, 24);
+    //private final Font subtitleFont = new Font("Arial", Font.ITALIC, 20);
     private final Font headingFont = new Font("Arial", Font.BOLD, 20);
     private final Font paragraphFont = new Font("Arial", Font.PLAIN, 16);
     private final Font labelFont = new Font("Arial", Font.BOLD, 14);
@@ -97,7 +95,7 @@ public class LibraryFrame extends JFrame {
         btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setBorder(new RoundedBorder(buttonPrimaryBgColor, 1, 15)); // Apply rounded border to buttons
+        btn.setBorder(new RoundedBorder(buttonPrimaryBgColor, 1, 15)); 
         btn.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) { btn.setBackground(buttonPrimaryHoverColor); }
             public void mouseExited(MouseEvent e) { btn.setBackground(buttonPrimaryBgColor); }
@@ -107,20 +105,16 @@ public class LibraryFrame extends JFrame {
         leftPanel.add(btn);
     }
 
-    // ================= ADD BOOK / CD =================
- // ================= ADD BOOK / CD =================
+    // Add Book / CD
     private void addItemPanel(String type) {
         rightPanel.removeAll();
         rightPanel.setLayout(null);
 
-        // Title label
         JLabel header = new JLabel("Add " + type, SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.BOLD, 22));
         header.setForeground(textColor);
         header.setBounds(0, 0, 680, 40);
         rightPanel.add(header);
-
-        // Panel with better spacing
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setOpaque(false);
         panel.setBounds(80, 70, 520, 260);
@@ -128,8 +122,6 @@ public class LibraryFrame extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(12, 12, 12, 12);
         gbc.anchor = GridBagConstraints.WEST;
-
-        // Bigger, clearer labels
         Font labelF = new Font("Arial", Font.BOLD, 18);
 
         JLabel titleLbl = new JLabel("Title:");
@@ -144,7 +136,6 @@ public class LibraryFrame extends JFrame {
         isbnLbl.setFont(labelF);
         isbnLbl.setForeground(textColor);
 
-        // Text fields resized + shaped
         JTextField titleField = new JTextField();
         titleField.setFont(fieldFont);
         titleField.setPreferredSize(new Dimension(260, 36));
@@ -160,17 +151,13 @@ public class LibraryFrame extends JFrame {
         isbnField.setPreferredSize(new Dimension(260, 36));
         isbnField.setBorder(new RoundedBorder(borderColor, 1, 12));
 
-        // Add rows in perfect alignment
         gbc.gridx = 0; gbc.gridy = 0; panel.add(titleLbl, gbc);
         gbc.gridx = 1;              panel.add(titleField, gbc);
-
         gbc.gridx = 0; gbc.gridy = 1; panel.add(authorLbl, gbc);
         gbc.gridx = 1;              panel.add(authorField, gbc);
-
         gbc.gridx = 0; gbc.gridy = 2; panel.add(isbnLbl, gbc);
         gbc.gridx = 1;              panel.add(isbnField, gbc);
 
-        // Add button
         JButton addBtn = new JButton("Add " + type);
         addBtn.setFont(buttonFont);
         addBtn.setBackground(buttonPrimaryBgColor);
@@ -185,12 +172,10 @@ public class LibraryFrame extends JFrame {
             public void mouseExited(MouseEvent e) { addBtn.setBackground(buttonPrimaryBgColor); }
         });
 
-        // Button placement
         gbc.gridx = 1; gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(addBtn, gbc);
 
-        // Action for add
         addBtn.addActionListener(e -> {
             if (titleField.getText().trim().isEmpty() ||
                 authorField.getText().trim().isEmpty() ||
@@ -212,7 +197,7 @@ public class LibraryFrame extends JFrame {
         rightPanel.repaint();
     }
 
-    // ================= SEARCH PANEL =================
+    // Search Panel
  
     private void setupSearchPanelGUI() {
         rightPanel.removeAll();
@@ -231,7 +216,9 @@ public class LibraryFrame extends JFrame {
 
     
         typeCombo.setRenderer(new DefaultListCellRenderer() {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public Component getListCellRendererComponent(
                     JList<?> list, Object value, int index,
                     boolean isSelected, boolean cellHasFocus) {
@@ -324,7 +311,9 @@ public class LibraryFrame extends JFrame {
         }
 
         JTable table = new JTable(data, columns) {
-            public boolean isCellEditable(int r, int c) { return false; }
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int r, int c) { return false; }
         };
 
         table.setFont(paragraphFont);
@@ -335,7 +324,7 @@ public class LibraryFrame extends JFrame {
         tableScrollPane.repaint();
     }
 
-    // ================= BORROW =================
+    // Borrow Book / CD
     private void borrowItemPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(null);
@@ -380,7 +369,7 @@ public class LibraryFrame extends JFrame {
         rightPanel.repaint();
     }
 
-    // ================= RETURN =================
+    // Return Book / CD
     private void returnItemPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(null);
@@ -426,9 +415,8 @@ public class LibraryFrame extends JFrame {
         rightPanel.repaint();
     }
 
-    // ================ ACTIVE LOANS (ADMIN) ================
+    // Active Loans (Admin)
     private void showActiveLoansAdminPanel() {
-
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
 
@@ -463,7 +451,9 @@ public class LibraryFrame extends JFrame {
         }
 
         JTable table = new JTable(data, columns) {
-            public boolean isCellEditable(int r, int c) { return false; }
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int r, int c) { return false; }
         };
 
         table.getTableHeader().setReorderingAllowed(false);
@@ -481,7 +471,7 @@ public class LibraryFrame extends JFrame {
         rightPanel.repaint();
     }
 
-    // ================= USER LOANS =================
+    // User Loans 
     private void showUserLoansPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -506,7 +496,9 @@ public class LibraryFrame extends JFrame {
         }
 
         JTable table = new JTable(data, columns) {
-            public boolean isCellEditable(int r, int c) { return false; }
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int r, int c) { return false; }
         };
         table.getTableHeader().setReorderingAllowed(false);
         table.setFont(paragraphFont);
@@ -554,7 +546,7 @@ public class LibraryFrame extends JFrame {
         rightPanel.repaint();
     }
 
-    // ================= UNREGISTER =================
+    // Unregister user (Admin)
     private void unregisterUserPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(null);
@@ -601,7 +593,9 @@ public class LibraryFrame extends JFrame {
 
     // Custom Rounded Border Class
     class RoundedBorder extends AbstractBorder {
-        private Color color;
+		private static final long serialVersionUID = 1L;
+		
+		private Color color;
         private int thickness;
         private int radius;
         private Insets insets;

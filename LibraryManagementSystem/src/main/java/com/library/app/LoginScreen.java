@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 import com.library.service.LibraryService;
 import com.library.model.UserAccount;
 
@@ -18,7 +17,7 @@ public class LoginScreen extends JFrame {
     private final Color backgroundColor = new Color(247, 241, 236); // #F7F1EC - Vanilla Mist
     private final Color panelColor = new Color(216, 195, 176);     // #D8C3B0 - Pale Biscuit
     private final Color textColor = new Color(56, 43, 38);        // #382B26 - Dark Roast (for H1 Titles & Primary Buttons)
-    private final Color secondaryTextColor = new Color(156, 126, 101); // #9C7E65 - Soft Leather (Secondary Titles/Borders)
+    //private final Color secondaryTextColor = new Color(156, 126, 101); // #9C7E65 - Soft Leather (Secondary Titles/Borders)
     private final Color buttonPrimaryBgColor = new Color(56, 43, 38); // #382B26 - Dark Roast (Primary Buttons)
     private final Color buttonPrimaryHoverColor = new Color(80, 60, 50); // Lighter Dark Roast
     private final Color buttonSecondaryBgColor = new Color(111, 86, 65); // #6F5641 - Mudstone (Secondary Buttons)
@@ -27,9 +26,9 @@ public class LoginScreen extends JFrame {
 
     // Unified Font Scheme
     private final Font titleFont = new Font("Arial", Font.BOLD, 24);
-    private final Font subtitleFont = new Font("Arial", Font.ITALIC, 20);
-    private final Font headingFont = new Font("Arial", Font.BOLD, 20);
-    private final Font paragraphFont = new Font("Arial", Font.PLAIN, 16);
+    //private final Font subtitleFont = new Font("Arial", Font.ITALIC, 20);
+    //private final Font headingFont = new Font("Arial", Font.BOLD, 20);
+    //private final Font paragraphFont = new Font("Arial", Font.PLAIN, 16);
     private final Font labelFont = new Font("Arial", Font.BOLD, 14);
     private final Font fieldFont = new Font("Arial", Font.PLAIN, 14);
     private final Font buttonFont = new Font("Arial", Font.BOLD, 14);
@@ -50,8 +49,7 @@ public class LoginScreen extends JFrame {
         titleLabel.setFont(titleFont);
         titleLabel.setForeground(textColor);
         mainPanel.add(titleLabel, BorderLayout.NORTH);
-
-        // ---------------- FORM PANEL ----------------
+        
         JPanel formPanel = new JPanel(new GridLayout(0, 1, 15, 15));
         formPanel.setBackground(panelColor);
         formPanel.setBorder(new CompoundBorder(
@@ -59,17 +57,16 @@ public class LoginScreen extends JFrame {
                 new EmptyBorder(25,25,25,25)
         ));
 
-        // EMAIL ROW
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setFont(labelFont);
         emailLabel.setForeground(textColor);
 
         JPanel emailRow = new JPanel(new BorderLayout(10, 0));
         emailRow.setBackground(panelColor);
-        JLabel emailIcon = new JLabel(new ImageIcon("icons/email.png"));  // غيّر المسار
+        JLabel emailIcon = new JLabel(new ImageIcon("icons/email.png"));  
         emailField = new JTextField();
         emailField.setFont(fieldFont);
-        emailField.setBorder(new RoundedBorder(borderColor, 1, 10)); // Rounded border for text field
+        emailField.setBorder(new RoundedBorder(borderColor, 1, 10)); 
         emailField.setPreferredSize(new Dimension(250, 40));
         emailRow.add(emailIcon, BorderLayout.WEST);
         emailRow.add(emailField, BorderLayout.CENTER);
@@ -81,31 +78,26 @@ public class LoginScreen extends JFrame {
 
         JPanel passRow = new JPanel(new BorderLayout(10, 0));
         passRow.setBackground(panelColor);
-        JLabel passIcon = new JLabel(new ImageIcon("icons/password.png")); // غيّر المسار
+        JLabel passIcon = new JLabel(new ImageIcon("icons/password.png"));  
         passwordField = new JPasswordField();
         passwordField.setFont(fieldFont);
-        passwordField.setBorder(new RoundedBorder(borderColor, 1, 10)); // Rounded border for password field
+        passwordField.setBorder(new RoundedBorder(borderColor, 1, 10)); 
         passwordField.setPreferredSize(new Dimension(250, 40));
         passRow.add(passIcon, BorderLayout.WEST);
         passRow.add(passwordField, BorderLayout.CENTER);
 
-        // إضافة الحقول للوحة
         formPanel.add(emailLabel);
         formPanel.add(emailRow);
         formPanel.add(passLabel);
         formPanel.add(passRow);
-
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
-        // ---------------- BUTTON PANEL ----------------
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10,10));
         buttonPanel.setBackground(backgroundColor);
-
         JButton backBtn = new JButton("← Back");
         JButton loginBtn = new JButton("Login");
         JButton registerBtn = new JButton("Register Now");
-
-        // Button styling unified
         styleButton(loginBtn, buttonPrimaryBgColor, buttonPrimaryHoverColor, Color.WHITE, buttonFont);
         styleButton(registerBtn, buttonPrimaryBgColor, buttonPrimaryHoverColor, Color.WHITE, buttonFont);
         styleButton(backBtn, buttonSecondaryBgColor, buttonSecondaryHoverColor, Color.WHITE, buttonFont);
@@ -116,7 +108,6 @@ public class LoginScreen extends JFrame {
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Actions
         loginBtn.addActionListener(e -> handleLogin());
         registerBtn.addActionListener(e -> {
             dispose();
@@ -131,7 +122,6 @@ public class LoginScreen extends JFrame {
         setVisible(true);
     }
 
-    // ---------------- BUTTON STYLE ----------------
     private void styleButton(JButton btn, Color bg, Color hover, Color fg, Font font){
         btn.setFont(font);
         btn.setBackground(bg);
@@ -164,7 +154,6 @@ public class LoginScreen extends JFrame {
         }
     }
 
-    // Custom Rounded Border Class
     class RoundedBorder extends AbstractBorder {
         private Color color;
         private int thickness;

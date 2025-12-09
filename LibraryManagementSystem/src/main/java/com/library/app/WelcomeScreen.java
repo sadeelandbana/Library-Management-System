@@ -15,7 +15,7 @@ public class WelcomeScreen extends JFrame {
     private final Color backgroundColor = new Color(247, 241, 236); // #F7F1EC - Vanilla Mist
     private final Color panelColor = new Color(216, 195, 176);     // #D8C3B0 - Pale Biscuit
     private final Color textColor = new Color(56, 43, 38);        // #382B26 - Dark Roast (for H1 Titles & Primary Buttons)
-    private final Color secondaryTextColor = new Color(156, 126, 101); // #9C7E65 - Soft Leather (Secondary Titles/Borders)
+    //private final Color secondaryTextColor = new Color(156, 126, 101); // #9C7E65 - Soft Leather (Secondary Titles/Borders)
     private final Color buttonPrimaryBgColor = new Color(56, 43, 38); // #382B26 - Dark Roast (Primary Buttons)
     private final Color buttonPrimaryHoverColor = new Color(80, 60, 50); // Lighter Dark Roast
     private final Color buttonSecondaryBgColor = new Color(111, 86, 65); // #6F5641 - Mudstone (Secondary Buttons)
@@ -25,10 +25,10 @@ public class WelcomeScreen extends JFrame {
     // Unified Font Scheme
     private final Font titleFont = new Font("Arial", Font.BOLD, 24);
     private final Font subtitleFont = new Font("Arial", Font.ITALIC, 20);
-    private final Font headingFont = new Font("Arial", Font.BOLD, 20);
+   // private final Font headingFont = new Font("Arial", Font.BOLD, 20);
     private final Font paragraphFont = new Font("Arial", Font.PLAIN, 16);
-    private final Font labelFont = new Font("Arial", Font.BOLD, 14);
-    private final Font fieldFont = new Font("Arial", Font.PLAIN, 14);
+   // private final Font labelFont = new Font("Arial", Font.BOLD, 14);
+   // private final Font fieldFont = new Font("Arial", Font.PLAIN, 14);
     private final Font buttonFont = new Font("Arial", Font.BOLD, 14);
 
     public WelcomeScreen(LibraryService service) {
@@ -43,7 +43,6 @@ public class WelcomeScreen extends JFrame {
         mainPanel.setBackground(backgroundColor);
         mainPanel.setBorder(new EmptyBorder(40, 50, 40, 50));
 
-        // Header
         JPanel headerPanel = new JPanel();
         headerPanel.setOpaque(false);
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
@@ -53,7 +52,6 @@ public class WelcomeScreen extends JFrame {
         subtitleLabel.setFont(subtitleFont); subtitleLabel.setForeground(textColor.darker()); subtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         headerPanel.add(titleLabel); headerPanel.add(Box.createVerticalStrut(10)); headerPanel.add(subtitleLabel);
 
-        // Center
         JPanel centerPanel = new JPanel(new BorderLayout(20, 20));
         centerPanel.setOpaque(false);
         JLabel imageLabel = new JLabel(new ImageIcon("src/main/java/com/library/app/library.jpg"));
@@ -70,7 +68,6 @@ public class WelcomeScreen extends JFrame {
         centerPanel.add(imageLabel, BorderLayout.NORTH);
         centerPanel.add(new JScrollPane(introText), BorderLayout.CENTER);
 
-        // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         buttonPanel.setOpaque(false);
         JButton exitButton = createStyledButton("Exit", buttonSecondaryBgColor, buttonSecondaryHoverColor, textColor, buttonFont);
@@ -102,7 +99,6 @@ public class WelcomeScreen extends JFrame {
         return btn;
     }
 
-    // Custom Rounded Border Class
     class RoundedBorder extends AbstractBorder {
         private Color color;
         private int thickness;
