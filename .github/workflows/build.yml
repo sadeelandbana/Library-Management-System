@@ -43,6 +43,7 @@ jobs:
             -Dsonar.projectKey=sadeelandbana_Library-Management-System
             -Dsonar.organization=sadeelandbana0405121
             -Dsonar.projectBaseDir=LibraryManagementSystem
+            -Dsonar.java.binaries=LibraryManagementSystem/target/classes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
