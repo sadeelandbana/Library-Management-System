@@ -40,8 +40,8 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=sadeelandbana0405121
-            -Dsonar.organization=sadeelandbana
+            -Dsonar.projectKey=sadeelandbana_Library-Management-System
+            -Dsonar.organization=sadeelandbana0405121
             -Dsonar.projectBaseDir=LibraryManagementSystem
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
