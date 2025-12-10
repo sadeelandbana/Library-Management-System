@@ -42,7 +42,7 @@ jobs:
           args: >
             -Dsonar.projectKey=sadeelandbana0405121
             -Dsonar.organization=sadeelandbana
-            -Dsonar.projectBaseDir=LibraryManagementSystem
+            -Dsonar.projectBaseDir=.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
