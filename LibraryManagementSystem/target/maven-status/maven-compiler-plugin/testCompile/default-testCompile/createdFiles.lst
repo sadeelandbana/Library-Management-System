@@ -1,8 +1,0 @@
-tests\BookTest.class
-tests\UserAccountTest.class
-tests\BookFineStrategyTest.class
-tests\LibraryServiceTest.class
-tests\LoanTest.class
-tests\EmailNotifierMockTest.class
-tests\CDTest.class
-tests\CDFineStrategyTest.class

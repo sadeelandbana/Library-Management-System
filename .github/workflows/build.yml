@@ -35,23 +35,22 @@ jobs:
 
       - name: Run Tests + JaCoCo Report
         run: |
-          cd LibraryManagementSystem
           mvn clean test jacoco:report
 
       - name: Debug Jacoco Path
         run: |
-          cd LibraryManagementSystem
           echo "----- Checking Jacoco Report Folder -----"
           ls -R target/site/jacoco || echo "Jacoco folder NOT found!"
           echo "-----------------------------------------"
 
       - name: SonarCloud Scan
+        if: ${{ secrets.SONAR_TOKEN != '' }}
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
           args: >
             -Dsonar.projectKey=sadeelandbana_Library-Management-System
             -Dsonar.organization=sadeelandbana0405121
-            -Dsonar.projectBaseDir=LibraryManagementSystem
+            -Dsonar.projectBaseDir=.
             -Dsonar.sources=src/main/java
             -Dsonar.tests=src/test/java
             -Dsonar.java.binaries=target/classes
@@ -63,3 +62,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: SonarCloud skipped (missing SONAR_TOKEN)
+        if: ${{ secrets.SONAR_TOKEN == '' }}
+        run: echo "SONAR_TOKEN is not configured. Skipping SonarCloud scan."
