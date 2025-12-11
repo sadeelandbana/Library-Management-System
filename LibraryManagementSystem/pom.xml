@@ -23,25 +23,29 @@
             target/site/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
 
-        <!-- === Coverage Exclusions (FIXED COMPLETELY) === -->
+        <!-- === Coverage Exclusions (GUI + inner classes) === -->
         <sonar.coverage.exclusions>
-            **/com/library/app/**,
-            **/*Screen.java,
-            **/*Frame.java,
-            **/*GUI.java,
-            **/*Main*.java,
-            **/EmailNotifier.java,
+            **/com/library/app/**
+            **/com/library/app/**/*
+            **/*Screen*.java
+            **/*Frame*.java
+            **/*GUI*.java
+            **/*RoundedBorder*.java
+            **/*Main*.java
+            **/EmailNotifier.java
             **/Observer.java
         </sonar.coverage.exclusions>
 
-        <!-- === Code Analysis Exclusions (same as above) === -->
+        <!-- === Code Exclusions === -->
         <sonar.exclusions>
-            **/com/library/app/**,
-            **/*Screen.java,
-            **/*Frame.java,
-            **/*GUI.java,
-            **/*Main*.java,
-            **/EmailNotifier.java,
+            **/com/library/app/**
+            **/com/library/app/**/*
+            **/*Screen*.java
+            **/*Frame*.java
+            **/*GUI*.java
+            **/*RoundedBorder*.java
+            **/*Main*.java
+            **/EmailNotifier.java
             **/Observer.java
         </sonar.exclusions>
 
