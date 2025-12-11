@@ -9,12 +9,11 @@
     <version>1.0</version>
 
     <properties>
-        <!-- Java Version -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!--  SonarCloud Properties -->
+        <!-- SonarCloud -->
         <sonar.organization>sadeelandbana</sonar.organization>
         <sonar.projectKey>sadeelandbana0405121</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -45,7 +44,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Required for running tests -->
+        <!-- Required for JUnit platform -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
@@ -55,9 +54,9 @@
 
         <!-- Javax Mail -->
         <dependency>
-           <groupId>com.sun.mail</groupId>
-           <artifactId>javax.mail</artifactId>
-           <version>1.6.2</version>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
         </dependency>
 
     </dependencies>
@@ -65,7 +64,7 @@
     <build>
         <plugins>
 
-            <!-- Java Compiler -->
+            <!-- Compiler -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
@@ -79,6 +78,33 @@
                 <configuration>
                     <useModulePath>false</useModulePath>
                 </configuration>
+            </plugin>
+
+            <!-- JaCoCo Coverage Plugin -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
+
+                <executions>
+
+                    <!-- Required for instrumenting code -->
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Generate coverage report on verify -->
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
             </plugin>
 
         </plugins>
