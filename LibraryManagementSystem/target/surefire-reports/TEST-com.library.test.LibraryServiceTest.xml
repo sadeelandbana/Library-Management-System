@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.library.test.LibraryServiceTest" time="0.737" tests="10" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.library.test.LibraryServiceTest" time="0.897" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\jdk-17.0.11\bin"/>
-    <property name="sun.java.command" value="C:\Users\Sadeel\AppData\Local\Temp\surefire7620843025364243288\surefirebooter-20251211165920261_3.jar C:\Users\Sadeel\AppData\Local\Temp\surefire7620843025364243288 2025-12-11T16-59-19_870-jvmRun1 surefire-20251211165920261_1tmp surefire_0-20251211165920261_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Sadeel\AppData\Local\Temp\surefire11983699154444822098\surefirebooter-20251211171951502_3.jar C:\Users\Sadeel\AppData\Local\Temp\surefire11983699154444822098 2025-12-11T17-19-51_121-jvmRun1 surefire-20251211171951502_1tmp surefire_0-20251211171951502_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Sadeel\git\Library-Management-System\LibraryManagementSystem\target\test-classes;C:\Users\Sadeel\git\Library-Management-System\LibraryManagementSystem\target\classes;C:\Users\Sadeel\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.3\junit-jupiter-api-5.9.3.jar;C:\Users\Sadeel\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Sadeel\.m2\repository\org\junit\platform\junit-platform-commons\1.9.3\junit-platform-commons-1.9.3.jar;C:\Users\Sadeel\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Sadeel\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.3\junit-jupiter-engine-5.9.3.jar;C:\Users\Sadeel\.m2\repository\org\junit\platform\junit-platform-engine\1.9.3\junit-platform-engine-1.9.3.jar;C:\Users\Sadeel\.m2\repository\org\mockito\mockito-junit-jupiter\5.5.0\mockito-junit-jupiter-5.5.0.jar;C:\Users\Sadeel\.m2\repository\org\mockito\mockito-core\5.5.0\mockito-core-5.5.0.jar;C:\Users\Sadeel\.m2\repository\net\bytebuddy\byte-buddy\1.14.6\byte-buddy-1.14.6.jar;C:\Users\Sadeel\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.6\byte-buddy-agent-1.14.6.jar;C:\Users\Sadeel\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Sadeel\.m2\repository\org\junit\platform\junit-platform-launcher\1.9.3\junit-platform-launcher-1.9.3.jar;C:\Users\Sadeel\.m2\repository\com\sun\mail\javax.mail\1.6.2\javax.mail-1.6.2.jar;C:\Users\Sadeel\.m2\repository\javax\activation\activation\1.1\activation-1.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Sadeel\AppData\Local\Temp\surefire7620843025364243288\surefirebooter-20251211165920261_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Sadeel\AppData\Local\Temp\surefire11983699154444822098\surefirebooter-20251211171951502_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.11+7-LTS-207"/>
@@ -56,14 +56,14 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testUnregisterUser_pendingFine_failure" classname="com.library.test.LibraryServiceTest" time="0.57"/>
-  <testcase name="testUnregisterUser_success" classname="com.library.test.LibraryServiceTest" time="0.013"/>
-  <testcase name="testBorrowBook_successAndDueDateCheck" classname="com.library.test.LibraryServiceTest" time="0.016"/>
-  <testcase name="testUnregisterUser_activeLoan_failure" classname="com.library.test.LibraryServiceTest" time="0.012"/>
-  <testcase name="testReturnBook_onTime_noFineAndNoNotification" classname="com.library.test.LibraryServiceTest" time="0.015"/>
-  <testcase name="testBorrowBook_userHasOverdueLoan_failure" classname="com.library.test.LibraryServiceTest" time="0.017"/>
-  <testcase name="testReturnBook_bookOverdue_correctFineAndNotified" classname="com.library.test.LibraryServiceTest" time="0.017"/>
-  <testcase name="testBorrowBook_userHasFine_failure" classname="com.library.test.LibraryServiceTest" time="0.007"/>
-  <testcase name="testBorrowBook_alreadyBorrowedItem_failure" classname="com.library.test.LibraryServiceTest" time="0.016"/>
-  <testcase name="testReturnBook_cdOverdue_correctFineAndNotified" classname="com.library.test.LibraryServiceTest" time="0.009"/>
+  <testcase name="testUnregisterUser_pendingFine_failure" classname="com.library.test.LibraryServiceTest" time="0.672"/>
+  <testcase name="testUnregisterUser_success" classname="com.library.test.LibraryServiceTest" time="0.028"/>
+  <testcase name="testBorrowBook_successAndDueDateCheck" classname="com.library.test.LibraryServiceTest" time="0.019"/>
+  <testcase name="testUnregisterUser_activeLoan_failure" classname="com.library.test.LibraryServiceTest" time="0.02"/>
+  <testcase name="testReturnBook_onTime_noFineAndNoNotification" classname="com.library.test.LibraryServiceTest" time="0.022"/>
+  <testcase name="testBorrowBook_userHasOverdueLoan_failure" classname="com.library.test.LibraryServiceTest" time="0.022"/>
+  <testcase name="testReturnBook_bookOverdue_correctFineAndNotified" classname="com.library.test.LibraryServiceTest" time="0.021"/>
+  <testcase name="testBorrowBook_userHasFine_failure" classname="com.library.test.LibraryServiceTest" time="0.014"/>
+  <testcase name="testBorrowBook_alreadyBorrowedItem_failure" classname="com.library.test.LibraryServiceTest" time="0.011"/>
+  <testcase name="testReturnBook_cdOverdue_correctFineAndNotified" classname="com.library.test.LibraryServiceTest" time="0.015"/>
 </testsuite>
