@@ -52,9 +52,9 @@ jobs:
             -Dsonar.projectKey=sadeelandbana_Library-Management-System
             -Dsonar.organization=sadeelandbana0405121
             -Dsonar.projectBaseDir=LibraryManagementSystem
-            -Dsonar.java.binaries=LibraryManagementSystem/target/classes
+            -Dsonar.java.binaries=target/classes
             -Dsonar.java.coveragePlugin=jacoco
-            -Dsonar.coverage.jacoco.xmlReportPaths=LibraryManagementSystem/target/site/jacoco/jacoco.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
             -Dsonar.coverage.exclusions=**/com/library/app/**,**/com/library/app/**/*,**/*Screen*.java,**/*Frame*.java,**/*RoundedBorder*.java,**/*GUI*.java,**/*Main*.java,**/EmailNotifier.java,**/Observer.java
             -Dsonar.exclusions=**/com/library/app/**,**/com/library/app/**/*,**/*Screen*.java,**/*Frame*.java,**/*RoundedBorder*.java,**/*GUI*.java,**/*Main*.java,**/EmailNotifier.java,**/Observer.java
         env:
