@@ -1,4 +1,5 @@
 package tests;
+
 import com.library.model.*;
 import com.library.service.LibraryService;
 import com.library.service.Observer;
@@ -6,23 +7,23 @@ import com.library.service.Observer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.lang.reflect.Field;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LibraryServiceTest {
 
-    // @Spy allows us to test real methods of LibraryService while still using Mockito features
-    @Spy 
-    private LibraryService libraryService; 
-    
-    // @Mock allows us to simulate the EmailNotifier/Observer and verify notifications
+    @Spy
+    private LibraryService libraryService;
+
     @Mock
     private Observer mockNotifier;
 
@@ -32,133 +33,190 @@ public class LibraryServiceTest {
     private CD cd1;
 
     @BeforeEach
-    void setUp() throws Exception { // تم تعديل التوقيع لإضافة throws Exception
-        // Initialize the service Spy (this will call the constructor and initialize users/books)
+    void setUp() throws Exception {
         libraryService = spy(new LibraryService());
-        
-        // Fetch the default users initialized by the LibraryService constructor
+
         admin = libraryService.login("admin@lib.com", "admin");
         user1 = libraryService.login("user@lib.com", "user");
-        
-        // Since the constructor is now active, we only need to add the media items
+
         book1 = new Book("The Code", "A. Author", "ISBN-100");
         cd1 = new CD("Best Hits", "B. Artist", "ISBN-200");
+
         libraryService.addBook(book1);
         libraryService.addBook(cd1);
-        
-        // FIX: Inject the mockNotifier directly into the private 'internalNotifier' field using reflection.
-        // This ensures the production code calls the mock when accessing the field directly.
+
         Field field = LibraryService.class.getDeclaredField("internalNotifier");
         field.setAccessible(true);
         field.set(libraryService, mockNotifier);
     }
-    
+
+    // -------------------- Borrow Tests --------------------
 
     @Test
     void testBorrowBook_successAndDueDateCheck() {
-        // Book: 28 days
         assertTrue(libraryService.borrowBook(user1, book1));
-        Loan bookLoan = libraryService.getUserLoans(user1).stream().filter(l -> l.getItem().equals(book1)).findFirst().orElseThrow();
-        assertEquals(LocalDate.now().plusDays(28), bookLoan.getDueDate(), "Book due date must be 28 days.");
-        
-        // CD: 7 days
+        Loan bookLoan = libraryService.getUserLoans(user1).stream()
+                .filter(l -> l.getItem().equals(book1)).findFirst().orElseThrow();
+        assertEquals(LocalDate.now().plusDays(28), bookLoan.getDueDate());
+
         assertTrue(libraryService.borrowBook(user1, cd1));
-        Loan cdLoan = libraryService.getUserLoans(user1).stream().filter(l -> l.getItem().equals(cd1)).findFirst().orElseThrow();
-        assertEquals(LocalDate.now().plusDays(7), cdLoan.getDueDate(), "CD due date must be 7 days.");
+        Loan cdLoan = libraryService.getUserLoans(user1).stream()
+                .filter(l -> l.getItem().equals(cd1)).findFirst().orElseThrow();
+        assertEquals(LocalDate.now().plusDays(7), cdLoan.getDueDate());
     }
 
     @Test
     void testBorrowBook_alreadyBorrowedItem_failure() {
         libraryService.borrowBook(user1, book1);
-        assertFalse(libraryService.borrowBook(admin, book1), "Borrowing a loaned item should fail.");
-    }
-    
-    @Test
-    void testBorrowBook_userHasFine_failure() {
-        user1.addFine(50.0); // Simulate pending fine
-        assertFalse(libraryService.borrowBook(user1, book1), "Borrowing must fail due to pending fines (US4.1).");
-    }
-    
-    @Test
-    void testBorrowBook_userHasOverdueLoan_failure() {
-        // Loan item and manually set it overdue
-        libraryService.borrowBook(user1, cd1);
-        Loan cdLoan = libraryService.getUserLoans(user1).stream().filter(l -> l.getItem().equals(cd1)).findFirst().orElseThrow();
-        cdLoan.setDueDate(LocalDate.now().minusDays(1)); // Make it 1 day overdue
-        
-        assertFalse(libraryService.borrowBook(user1, book1), "Borrowing must fail due to having an overdue item (US4.1).");
+        assertFalse(libraryService.borrowBook(admin, book1));
     }
 
     @Test
+    void testBorrowBook_userHasFine_failure() {
+        user1.addFine(50.0);
+        assertFalse(libraryService.borrowBook(user1, book1));
+    }
+
+    @Test
+    void testBorrowBook_userHasOverdueLoan_failure() {
+        libraryService.borrowBook(user1, cd1);
+        Loan cdLoan = libraryService.getUserLoans(user1).stream()
+                .filter(l -> l.getItem().equals(cd1)).findFirst().orElseThrow();
+        cdLoan.setDueDate(LocalDate.now().minusDays(1));
+
+        assertFalse(libraryService.borrowBook(user1, book1));
+    }
+
+    // -------------------- Return Tests --------------------
+
+    @Test
     void testReturnBook_bookOverdue_correctFineAndNotified() {
-        // Setup overdue loan
         libraryService.borrowBook(user1, book1);
-        Loan loan = libraryService.getUserLoans(user1).stream().filter(l -> l.getItem().equals(book1) && !l.isReturned()).findFirst().orElseThrow();
-        loan.setDueDate(LocalDate.now().minusDays(5)); // 5 days overdue
-        
-        // Return item
+        Loan loan = libraryService.getUserLoans(user1).stream()
+                .filter(l -> l.getItem().equals(book1)).findFirst().orElseThrow();
+        loan.setDueDate(LocalDate.now().minusDays(5));
+
         libraryService.returnBook(user1, book1);
-        
-        // Assert Fine: 5 days * 10.0 = 50.0
-        assertEquals(50.0, user1.getFineBalance(), 0.001, "Book fine calculation (10.0/day) failed.");
-        
-        // Verify Notification (Observer Pattern)
-        String expectedMessagePart = "A fine of 50.00 has been charged";
-        verify(mockNotifier, times(1)).notify(eq(user1), startsWith(expectedMessagePart));
+
+        assertEquals(50.0, user1.getFineBalance(), 0.001);
+        verify(mockNotifier, times(1))
+                .notify(eq(user1), startsWith("A fine of 50.00"));
     }
 
     @Test
     void testReturnBook_cdOverdue_correctFineAndNotified() {
-        // Setup overdue loan
         libraryService.borrowBook(user1, cd1);
-        Loan loan = libraryService.getUserLoans(user1).stream().filter(l -> l.getItem().equals(cd1) && !l.isReturned()).findFirst().orElseThrow();
-        loan.setDueDate(LocalDate.now().minusDays(3)); // 3 days overdue
-        
-        // Return item
+        Loan loan = libraryService.getUserLoans(user1).stream()
+                .filter(l -> l.getItem().equals(cd1)).findFirst().orElseThrow();
+        loan.setDueDate(LocalDate.now().minusDays(3));
+
         libraryService.returnBook(user1, cd1);
 
-        // Assert Fine: 3 days * 20.0 = 60.0
-        assertEquals(60.0, user1.getFineBalance(), 0.001, "CD fine calculation (20.0/day) failed.");
-
-        // Verify Notification (Observer Pattern)
-        String expectedMessagePart = "A fine of 60.00 has been charged";
-        verify(mockNotifier, times(1)).notify(eq(user1), startsWith(expectedMessagePart));
+        assertEquals(60.0, user1.getFineBalance(), 0.001);
+        verify(mockNotifier, times(1))
+                .notify(eq(user1), startsWith("A fine of 60.00"));
     }
-    
+
     @Test
     void testReturnBook_onTime_noFineAndNoNotification() {
         libraryService.borrowBook(user1, book1);
-        // Loan is returned today, no overdue days
         assertTrue(libraryService.returnBook(user1, book1));
-        
-        assertEquals(0.0, user1.getFineBalance(), 0.001, "No fine should be charged for on-time return.");
+
+        assertEquals(0.0, user1.getFineBalance(), 0.001);
         verify(mockNotifier, never()).notify(eq(user1), anyString());
     }
+
+    // -------------------- Unregister Tests --------------------
 
     @Test
     void testUnregisterUser_activeLoan_failure() {
         libraryService.borrowBook(user1, book1);
-        assertFalse(libraryService.unregisterUser(admin, user1.getId()), "Unregistering must fail due to active loan (US4.2).");
+        assertFalse(libraryService.unregisterUser(admin, user1.getId()));
     }
 
     @Test
     void testUnregisterUser_pendingFine_failure() {
-        // Generate a fine first
         libraryService.borrowBook(user1, book1);
-        Loan loan = libraryService.getUserLoans(user1).stream().filter(l -> l.getItem().equals(book1) && !l.isReturned()).findFirst().orElseThrow();
-        loan.setDueDate(LocalDate.now().minusDays(1)); 
-        libraryService.returnBook(user1, book1); // User now has a fine
-        
-        assertTrue(user1.getFineBalance() > 0, "Fine must be present.");
-        assertFalse(libraryService.unregisterUser(admin, user1.getId()), "Unregistering must fail due to pending fine (US4.2).");
+        Loan loan = libraryService.getUserLoans(user1).stream()
+                .filter(l -> l.getItem().equals(book1)).findFirst().orElseThrow();
+
+        loan.setDueDate(LocalDate.now().minusDays(1));
+        libraryService.returnBook(user1, book1);
+
+        assertTrue(user1.getFineBalance() > 0);
+        assertFalse(libraryService.unregisterUser(admin, user1.getId()));
     }
-    
+
     @Test
     void testUnregisterUser_success() {
-        // Needs a user without loans or fines
         UserAccount tempUser = new UserAccount("TEMP", "Temp User", "temp@del.com", "001", "del", "User");
         libraryService.registerUser(tempUser);
-        
-        assertTrue(libraryService.unregisterUser(admin, "TEMP"), "Unregistering a clean user should succeed.");
+
+        assertTrue(libraryService.unregisterUser(admin, "TEMP"));
+    }
+
+    // -------------------- NEW TESTS ADDED FOR COVERAGE --------------------
+
+    @Test
+    void testRegisterUser() {
+        UserAccount newUser = new UserAccount("NEW1", "New User", "new@lib.com", "222", "pass", "User");
+        assertTrue(libraryService.registerUser(newUser));
+
+        UserAccount dupEmail = new UserAccount("XX1", "X", "new@lib.com", "333", "p", "User");
+        assertFalse(libraryService.registerUser(dupEmail));
+
+        UserAccount dupId = new UserAccount("NEW1", "X2", "other@lib.com", "444", "p", "User");
+        assertFalse(libraryService.registerUser(dupId));
+    }
+
+    @Test
+    void testLogin() {
+        assertNotNull(libraryService.login("admin@lib.com", "admin"));
+        assertNotNull(libraryService.login("user@lib.com", "user"));
+
+        assertNull(libraryService.login("user@lib.com", "wrong"));
+        assertNull(libraryService.login("unknown@lib.com", "pass"));
+    }
+
+    @Test
+    void testPayFine() {
+        user1.addFine(100);
+
+        assertFalse(libraryService.payFine(user1, -10));
+        assertFalse(libraryService.payFine(user1, 0));
+        assertFalse(libraryService.payFine(user1, 200));
+
+        assertTrue(libraryService.payFine(user1, 50));
+        assertEquals(50, user1.getFineBalance());
+    }
+
+    @Test
+    void testFindBookByIsbn() {
+        assertEquals(book1, libraryService.findBookByIsbn("ISBN-100"));
+        assertNull(libraryService.findBookByIsbn("UNKNOWN"));
+    }
+
+    @Test
+    void testGetAllActiveLoans() {
+        assertTrue(libraryService.getAllActiveLoans().isEmpty());
+
+        libraryService.borrowBook(user1, book1);
+        assertEquals(1, libraryService.getAllActiveLoans().size());
+
+        libraryService.returnBook(user1, book1);
+        assertTrue(libraryService.getAllActiveLoans().isEmpty());
+    }
+
+    @Test
+    void testSendOverdueReminders() {
+        libraryService.borrowBook(user1, book1);
+
+        Loan loan = libraryService.getUserLoans(user1).get(0);
+        loan.setDueDate(LocalDate.now().minusDays(3));
+
+        libraryService.sendOverdueReminders(mockNotifier);
+
+        verify(mockNotifier, times(1))
+                .notify(eq(user1), contains("overdue"));
     }
 }
