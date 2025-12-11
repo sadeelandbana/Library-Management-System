@@ -14,9 +14,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- SonarCloud -->
-        <sonar.organization>sadeelandbana</sonar.organization>
-        <sonar.projectKey>sadeelandbana0405121</sonar.projectKey>
+        <sonar.organization>sadeelandbana0405121</sonar.organization>
+        <sonar.projectKey>sadeelandbana_Library-Management-System</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencies>
@@ -85,6 +86,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version>
+
+                <configuration>
+                    <excludes>
+                        <!-- استثناء الـ GUI -->
+                        <exclude>com/library/app/**</exclude>
+
+                        <!-- استثناء الـ Main class -->
+                        <exclude>**/*Main*.class</exclude>
+                    </excludes>
+                </configuration>
 
                 <executions>
 
