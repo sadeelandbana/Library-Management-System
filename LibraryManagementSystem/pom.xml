@@ -17,7 +17,25 @@
         <sonar.organization>sadeelandbana0405121</sonar.organization>
         <sonar.projectKey>sadeelandbana_Library-Management-System</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+        <!-- JaCoCo XML for Sonar -->
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+        <!-- Coverage Exclusions -->
+        <sonar.coverage.exclusions>
+            **/com/library/app/**,
+            **/*Main*.java,
+            **/EmailNotifier.java,
+            **/Observer.java
+        </sonar.coverage.exclusions>
+
+        <!-- Code Analysis (Optional But Recommended) -->
+        <sonar.exclusions>
+            **/com/library/app/**,
+            **/*Main*.java,
+            **/EmailNotifier.java,
+            **/Observer.java
+        </sonar.exclusions>
     </properties>
 
     <dependencies>
@@ -45,7 +63,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JUnit Platform -->
+        <!-- Platform -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
@@ -53,7 +71,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Javax Mail -->
+        <!-- Java Mail -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
@@ -71,7 +89,7 @@
                 <version>3.8.1</version>
             </plugin>
 
-            <!-- JUnit 5 -->
+            <!-- Test Runner -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -87,19 +105,9 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version>
 
-                <configuration>
-                    <excludes>
-                        <!-- استثناء الـ GUI -->
-                        <exclude>com/library/app/**</exclude>
-
-                        <!-- استثناء الـ Main class -->
-                        <exclude>**/*Main*.class</exclude>
-                    </excludes>
-                </configuration>
-
                 <executions>
 
-                    <!-- Inject JaCoCo Agent -->
+                    <!-- Agent -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -107,7 +115,7 @@
                         </goals>
                     </execution>
 
-                    <!-- Generate Report -->
+                    <!-- Report -->
                     <execution>
                         <id>report</id>
                         <phase>test</phase>
@@ -117,7 +125,6 @@
                     </execution>
 
                 </executions>
-
             </plugin>
 
         </plugins>
