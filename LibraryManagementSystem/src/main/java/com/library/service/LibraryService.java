@@ -16,9 +16,6 @@ public class LibraryService {
     private final FineStrategy cdFineStrategy = new CDFineStrategy();
     private final Observer internalNotifier = new EmailNotifier(null, null); 
 
-    /**
-     * LibraryService constructor, initializes mock admin and user data.
-     */
     public LibraryService() { 
         // Default admin
         users.add(new UserAccount("A1", "Admin", "admin@lib.com", "000", "admin", "Admin"));
@@ -26,18 +23,9 @@ public class LibraryService {
         users.add(new UserAccount("U1", "Test User", "user@lib.com", "111", "user", "User"));
     }
     
-    // ==========================================================
-    // ** Added method to enable Mockito Spy in tests **
-    // ==========================================================
-    /**
-     * Exposes the internal notifier for testing purposes (Mockito Spy).
-     * @return The internal Observer instance.
-     */
     public Observer getInternalNotifier() {
         return internalNotifier;
     }
-    // ==========================================================
-
 
     //User management
     public boolean registerUser(UserAccount user) {
@@ -57,12 +45,6 @@ public class LibraryService {
         return null;
     }
 
-    /**
-     * Unregisters a regular user (Admin function - US3.1).
-     * @param admin The admin attempting the unregistration.
-     * @param userId The ID of the user to unregister.
-     * @return true if successful, false if not Admin, user not found, or has active loans/fines (US4.2).
-     */
     public boolean unregisterUser(UserAccount admin, String userId) {
         if (!"Admin".equalsIgnoreCase(admin.getRole())) return false;
 
@@ -103,12 +85,6 @@ public class LibraryService {
 
     //borrow and return
 
-    /**
-     * Handles the borrowing process.
-     * @param user The user borrowing the item.
-     * @param item The item to borrow.
-     * @return true if successful, false if item is already borrowed or user has restrictions (US4.1).
-     */
     public boolean borrowBook(UserAccount user, Book item) {
         // Cannot borrow if same item is already borrowed
         for (Loan l : loans)
@@ -137,11 +113,6 @@ public class LibraryService {
         return true;
     }
 
-    /**
-     * Handles the return process and fine calculation (US2.1, US5.1).
-     * Automatically sends an email notification if a fine is charged.
-     * @return true if successful, false if item was not on active loan to the user.
-     */
     public boolean returnBook(UserAccount user, Book item) {
         for (Loan l : loans) {
             if (l.getUser().equals(user) && l.getItem().equals(item) && !l.isReturned()) {

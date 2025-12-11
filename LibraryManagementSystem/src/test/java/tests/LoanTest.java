@@ -1,5 +1,4 @@
-package com.library;
-
+package tests;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,7 @@ public class LoanTest {
 
     @Test
     public void testInitialLoanDates() {
-        UserAccount user = new UserAccount("bana", "password", null, null, null, null); // مثال بسيط
+        UserAccount user = new UserAccount("bana", "password", null, null, null, null); 
         Book book = new Book("Java Basics", "Bana Aloul", "1234567890");
         Loan loan = new Loan(user, book);
 

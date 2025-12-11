@@ -1,5 +1,4 @@
-package com.library;
-
+package tests;
 import com.library.service.BookFineStrategy;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
