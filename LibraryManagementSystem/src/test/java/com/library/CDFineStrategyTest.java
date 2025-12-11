@@ -1,4 +1,4 @@
-package com.library.test;
+package com.library;
 
 import com.library.service.CDFineStrategy;
 import org.junit.jupiter.api.Test;

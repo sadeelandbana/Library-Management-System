@@ -1,4 +1,4 @@
-package com.library.test;
+package com.library;
 
 import com.library.service.BookFineStrategy;
 import org.junit.jupiter.api.Test;
