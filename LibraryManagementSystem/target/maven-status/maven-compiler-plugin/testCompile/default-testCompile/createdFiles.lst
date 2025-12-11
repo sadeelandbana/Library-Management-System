@@ -1,8 +1,8 @@
-com\library\test\EmailNotifierMockTest.class
-com\library\test\UserAccountTest.class
-com\library\test\BookFineStrategyTest.class
-com\library\test\LoanTest.class
-com\library\test\CDTest.class
-com\library\test\LibraryServiceTest.class
-com\library\test\BookTest.class
-com\library\test\CDFineStrategyTest.class
+tests\BookTest.class
+tests\UserAccountTest.class
+tests\BookFineStrategyTest.class
+tests\LibraryServiceTest.class
+tests\LoanTest.class
+tests\EmailNotifierMockTest.class
+tests\CDTest.class
+tests\CDFineStrategyTest.class
