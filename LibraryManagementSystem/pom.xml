@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
          http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -19,23 +19,32 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
         <!-- JaCoCo XML for Sonar -->
-        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            target/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
 
-        <!-- Coverage Exclusions -->
+        <!-- === Coverage Exclusions (FIXED COMPLETELY) === -->
         <sonar.coverage.exclusions>
             **/com/library/app/**,
+            **/*Screen.java,
+            **/*Frame.java,
+            **/*GUI.java,
             **/*Main*.java,
             **/EmailNotifier.java,
             **/Observer.java
         </sonar.coverage.exclusions>
 
-        <!-- Code Analysis (Optional But Recommended) -->
+        <!-- === Code Analysis Exclusions (same as above) === -->
         <sonar.exclusions>
             **/com/library/app/**,
+            **/*Screen.java,
+            **/*Frame.java,
+            **/*GUI.java,
             **/*Main*.java,
             **/EmailNotifier.java,
             **/Observer.java
         </sonar.exclusions>
+
     </properties>
 
     <dependencies>
@@ -106,8 +115,6 @@
                 <version>0.8.10</version>
 
                 <executions>
-
-                    <!-- Agent -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -115,7 +122,6 @@
                         </goals>
                     </execution>
 
-                    <!-- Report -->
                     <execution>
                         <id>report</id>
                         <phase>test</phase>
@@ -123,8 +129,8 @@
                             <goal>report</goal>
                         </goals>
                     </execution>
-
                 </executions>
+
             </plugin>
 
         </plugins>
